@@ -1,0 +1,78 @@
+name: Terraform Pull Request Checks
+
+on:
+  pull_request:
+    branches:
+      - main
+env:
+  TF_VERSION: '1.5.0'
+
+jobs:
+  terraform:
+    name: Terraform Lint, Format, and Validate
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Checkout Code
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 1 # Only the latest commit is needed for the PR checks
+
+    # Step 2: Set up Terraform
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: ${{ env.TF_VERSION }}
+
+    # Step 3: Initialize Terraform (without backend setup)
+    - name: Terraform Init
+      run: terraform init -backend=false
+
+    # Step 4: Terraform Format Check
+    - name: Terraform Format
+      id: fmt
+      run: terraform fmt -check -recursive
+      continue-on-error: true
+
+    - name: Output Terraform Format Results
+      if: steps.fmt.outcome == 'failure'
+      run: |
+        echo "❌ Terraform files are not formatted."
+        exit 1
+
+    # Step 5: Terraform Linting (Security Scan)
+    - name: Terraform Lint (tflint)
+      uses: terraform-linters/tflint-action@v0.44.1
+
+    # Step 6: Terraform Validate
+    - name: Terraform Validate
+      run: terraform validate
+
+    # Step 7: Security Scan with Checkov
+    - name: Security Scan (Checkov)
+      uses: bridgecrewio/checkov-action@v2.0.0
+      with:
+        scan-path: . # Path to scan
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    # Step 8: Terraform Plan (Dry Run)
+    - name: Terraform Plan
+      run: terraform plan -no-color
+      continue-on-error: true
+
+    # Optional: Fail if any plan differences are found
+    - name: Check for Drift
+      if: steps.plan.outcome == 'failure'
+      run: |
+        echo "❌ Changes detected in Terraform plan."
+        exit 1
+
+    # Step 9: Clean up sensitive data
+    - name: Remove Terraform State
+      run: rm -rf .terraform/ terraform.tfstate terraform.tfstate.backup
+
+    # Security Check: Check out dependencies and avoid cache files
+    - name: Clear Caches
+      run: sudo rm -rf ~/.cache/terraform
