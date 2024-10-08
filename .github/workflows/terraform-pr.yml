@@ -51,18 +51,18 @@ jobs:
     - name: Terraform Validate
       run: terraform validate
 
-    # # Step 6: Checkov Security Scan
-    # - name: Test with Checkov
-    #   id: checkov
-    #   uses: bridgecrewio/checkov-action@master
-    #   with:
-    #     directory: .
-    #     framework: terraform 
+    # Step 6: Checkov Security Scan
+    - name: Test with Checkov
+      id: checkov
+      uses: bridgecrewio/checkov-action@master
+      with:
+        directory: .
+        framework: terraform 
 
     # Step 8: Terraform Plan (Dry Run)
-    - name: Terraform Plan
-      run: terraform plan -no-color -var-file=dev.tfvars
-      continue-on-error: true
+    # - name: Terraform Plan
+    #   run: terraform plan -no-color -var-file=dev.tfvars
+    #   continue-on-error: true
 
     # Optional: Fail if any plan differences are found
     # - name: Check for Drift
