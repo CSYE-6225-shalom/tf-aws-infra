@@ -27,7 +27,7 @@ jobs:
       with:
         terraform_version: ${{ env.TF_VERSION }}
 
-    # Step 3: Initialize Terraform (without backend setup)
+    # Step 3: Initialize Terraform (no remote backend setup)
     - name: Terraform Init
       run: terraform init
 
@@ -37,6 +37,7 @@ jobs:
       run: terraform fmt -check -recursive
       continue-on-error: true
 
+    # This step will only run if the previous step fails and will fail the workflow
     - name: Output Terraform Format Results
       if: steps.fmt.outcome == 'failure'
       run: |
@@ -49,6 +50,7 @@ jobs:
     - name: Initialize tflint
       run: tflint --init && tflint --version
 
+    # Step 5: Run TFLint
     - name: Run TFLint
       run: tflint -f compact
 
@@ -56,7 +58,7 @@ jobs:
     - name: Terraform Validate
       run: terraform validate
 
-    # Step 6: Checkov Security Scan
+    # Step 7: Checkov Security Scan
     - name: Test with Checkov
       id: checkov
       uses: bridgecrewio/checkov-action@master
@@ -64,7 +66,7 @@ jobs:
         directory: .
         skip_check: CKV2_AWS_11,CKV2_AWS_12 # Add checks to skip
 
-    # Step 9: Clean up sensitive data
+    # Step 8: Clean up sensitive data
     - name: Remove Terraform State
       run: rm -rf .terraform/ terraform.tfstate terraform.tfstate.backup
 
