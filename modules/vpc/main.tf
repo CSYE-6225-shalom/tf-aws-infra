@@ -25,3 +25,4 @@ resource "aws_internet_gateway" "main" {
     Environment = var.environment
   }
 }
+}
