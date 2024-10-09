@@ -57,7 +57,7 @@ jobs:
       uses: bridgecrewio/checkov-action@master
       with:
         directory: .
-        skip_check: CKV2_AWS_11, CKV2_AWS_12 # Add checks to skip
+        skip_check: CKV2_AWS_11,CKV2_AWS_12 # Add checks to skip
 
 
     # Step 8: Terraform Plan (Dry Run)
