@@ -8,7 +8,6 @@ resource "random_string" "suffix" {
 
 resource "aws_vpc" "main" {
   cidr_block           = var.vpc_cidr
-  azs             = ["us-west-1a", "us-west-1b"]
   enable_dns_hostnames = true
   enable_dns_support   = true
 
