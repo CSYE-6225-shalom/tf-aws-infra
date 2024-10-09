@@ -51,6 +51,8 @@ jobs:
       run: tflint --init && tflint --version
 
     - name: Run TFLint
+      env:
+        TFLINT_LOG: DEBUG
       run: tflint -f compact --loglevel DEBUG
 
     # Step 6: Terraform Validate
