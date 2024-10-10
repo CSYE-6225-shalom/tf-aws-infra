@@ -13,6 +13,21 @@ variable "vpc_cidr" {
   type        = string
 }
 
+variable "public_route_cidr" {
+  description = "CIDR block for the public route"
+  type        = string
+}
+
+variable "public_subnet_count" {
+  description = "Number of public subnets"
+  type        = number
+}
+
+variable "private_subnet_count" {
+  description = "Number of private subnets"
+  type        = number
+}
+
 variable "profile" {
   description = "The AWS profile to use. (NEU)"
   type        = string
