@@ -35,13 +35,7 @@ jobs:
     - name: Terraform Format
       id: fmt
       run: terraform fmt -check -recursive
-      continue-on-error: true
-
-    # This step will only run if the previous step fails and will fail the workflow
-    - name: Output Terraform Format Results
-      if: steps.fmt.outcome == 'failure'
-      run: |
-        echo "❌ Terraform files are not formatted."
+      continue-on-error: false
 
     - name: Install TFLint
       run: |
