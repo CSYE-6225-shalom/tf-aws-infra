@@ -1,5 +1,5 @@
 resource "aws_subnet" "public" {
-  count                   = 3
+  count                   = var.public_subnet_count
   vpc_id                  = aws_vpc.main.id
   cidr_block              = local.public_subnets[count.index]
   availability_zone       = local.availability_zones[count.index]
@@ -13,7 +13,7 @@ resource "aws_subnet" "public" {
 }
 
 resource "aws_subnet" "private" {
-  count             = 3
+  count             = var.private_subnet_count
   vpc_id            = aws_vpc.main.id
   cidr_block        = local.private_subnets[count.index]
   availability_zone = local.availability_zones[count.index]
