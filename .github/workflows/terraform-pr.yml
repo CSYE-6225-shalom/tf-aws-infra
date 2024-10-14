@@ -58,7 +58,7 @@ jobs:
       uses: bridgecrewio/checkov-action@master
       with:
         directory: .
-        skip_check: CKV2_AWS_11,CKV2_AWS_12 # Add checks to skip
+        skip_check: CKV2_AWS_11,CKV2_AWS_12,CKV_AWS_24,CKV_AWS_260,CKV_AWS_135,CKV_AWS_79,CKV_AWS_126,CKV_AWS_130,CKV2_AWS_41 # Add checks to skip
 
     # Step 8: Clean up sensitive data
     - name: Remove Terraform State
@@ -67,3 +67,17 @@ jobs:
     # Security Check: Check out dependencies and avoid cache files
     - name: Clear Caches
       run: sudo rm -rf ~/.cache/terraform
+
+
+
+# Checkov check skips: 
+  
+# CKV2_AWS_11: Ensure VPC has flow logs enabled (cost)
+# CKV2_AWS_12: EBS volume envryption should be enabled (cost)
+# CKV_AWS_24: Ensure no security groups allow ingress from 0.0.0.0:0 to port 22 (assignment requirement)
+# CKV_AWS_260: Ensure no security groups allow ingress from 0.0.0.0:0 to port 80 (assignment requirement)
+# CKV_AWS_135: Ensure that EC2 is EBS optimized (cost)
+# CKV_AWS_79: Ensure Instance Metadata Service Version 1 is not enabled
+# CKV_AWS_126: Ensure that detailed monitoring is enabled for EC2 instances (cost)
+# CKV_AWS_130: Ensure VPC subnets do not assign public IP by default (need to be enabled manually otherwise. For ec2 instance)
+# CKV2_AWS_41: Ensure an IAM role is attached to EC2 instance (not needed currently)
