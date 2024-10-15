@@ -33,6 +33,11 @@ variable "app_port" {
   type        = number
 }
 
+variable "ami_owner_id" {
+  description = "Owner ID for AMI"
+  type        = string
+}
+
 variable "instance_type" {
   description = "EC2 instance type"
   type        = string

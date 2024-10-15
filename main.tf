@@ -19,6 +19,7 @@ module "ec2" {
   ec2_volume_type             = var.ec2_volume_type
   ec2_delete_on_termination   = var.ec2_delete_on_termination
   ec2_disable_api_termination = var.ec2_disable_api_termination
+  ami_owner_id                = var.ami_owner_id
   ec2_instance_count          = var.ec2_instance_count
   environment                 = var.environment
   depends_on                  = [module.vpc]
