@@ -18,6 +18,11 @@ variable "app_port" {
   type        = number
 }
 
+variable "ami_owner_id" {
+  description = "Owner ID for AMI"
+  type        = string
+}
+
 variable "ec2_instance_count" {
   description = "Number of Ec2 instances to deploy"
   type        = number

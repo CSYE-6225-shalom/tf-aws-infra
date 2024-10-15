@@ -12,7 +12,7 @@ data "aws_subnets" "public" {
 # Define data source to fetch the latest AMI
 data "aws_ami" "latest" {
   most_recent = true
-  owners      = ["686255989301"] # Owner ID
+  owners      = [var.ami_owner_id]
 
   filter {
     name   = "virtualization-type"
