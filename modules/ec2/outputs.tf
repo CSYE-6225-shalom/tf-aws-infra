@@ -8,7 +8,3 @@ output "security_group_id" {
   value       = aws_security_group.app_sg.id
 }
 
-output "latest_ami_id" {
-  description = "The ID of the latest AMI retrieved from AWS"
-  value       = local.latest_ami_id
-}
