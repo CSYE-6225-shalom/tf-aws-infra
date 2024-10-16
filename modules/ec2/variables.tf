@@ -18,8 +18,8 @@ variable "app_port" {
   type        = number
 }
 
-variable "ami_owner_id" {
-  description = "Owner ID for AMI"
+variable "ami_id" {
+  description = "AMI ID"
   type        = string
 }
 

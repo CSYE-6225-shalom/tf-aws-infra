@@ -51,7 +51,7 @@ resource "aws_security_group" "app_sg" {
 
 resource "aws_instance" "app_instance" {
   count                  = var.ec2_instance_count
-  ami                    = local.latest_ami_id
+  ami                    = var.ami_id
   instance_type          = var.instance_type
   subnet_id              = tolist(local.public_subnet_ids)[count.index]
   vpc_security_group_ids = [aws_security_group.app_sg.id]
