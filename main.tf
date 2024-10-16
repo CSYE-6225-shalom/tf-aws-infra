@@ -7,4 +7,6 @@ module "vpc" {
   public_route_cidr    = var.public_route_cidr
   public_subnet_count  = var.public_subnet_count
   private_subnet_count = var.private_subnet_count
+
  }
+
