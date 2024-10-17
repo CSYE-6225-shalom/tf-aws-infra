@@ -17,13 +17,13 @@ jobs:
     steps:
     # Step 1: Checkout Code
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         fetch-depth: 1 # Only the latest commit is needed for the PR checks
 
     # Step 2: Set up Terraform
     - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v2
+      uses: hashicorp/setup-terraform@v3
       with:
         terraform_version: ${{ env.TF_VERSION }}
 
