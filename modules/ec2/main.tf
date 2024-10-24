@@ -1,5 +1,5 @@
 resource "aws_security_group" "app_sg" {
-  name        = "${var.environment}-app-sg"
+  name        = "${var.environment}-application-security-group"
   vpc_id      = var.vpc_id
   description = "Application Security Group"
 
@@ -44,7 +44,7 @@ resource "aws_security_group" "app_sg" {
   }
 
   tags = {
-    Name        = "${var.environment}-app-sg"
+    Name        = "${var.environment}-application-security-group"
     Environment = var.environment
   }
 }
@@ -64,8 +64,32 @@ resource "aws_instance" "app_instance" {
 
   disable_api_termination = var.ec2_disable_api_termination
 
+  user_data = base64encode(<<EOF
+#!/bin/bash
+####################################################
+# CONFIGURE DB ENV VARIABLES FOR WEBAPP            #
+####################################################
+echo "Configuring application with RDS settings..."
+
+cd /opt/webapp
+# Create or update the .env file
+cat <<EOT > /opt/webapp/.env
+RDS_HOSTNAME="${var.db_host}"
+RDS_PORT=${var.db_port}
+RDS_DB_NAME="${var.db_name}"
+RDS_USERNAME="${var.db_username}"
+RDS_PASSWORD="${var.db_password}"
+PORT=${var.app_port}
+EOT
+
+echo "RDS configuration complete."
+EOF
+  )
+
   tags = {
     Name        = "${var.environment}-app-instance-${count.index + 1}"
     Environment = var.environment
   }
+
+  depends_on = [var.rds_instance_id]
 }

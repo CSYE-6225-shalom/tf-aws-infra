@@ -47,3 +47,35 @@ variable "ec2_disable_api_termination" {
   description = "Prevent the instance from being terminated through the AWS Management Console, CLI, or API"
   type        = bool
 }
+
+variable "db_username" {
+  description = "The Username for db"
+  type        = string
+}
+
+variable "db_password" {
+  description = "Password for the master DB user"
+  type        = string
+  sensitive   = true
+}
+
+variable "db_name" {
+  description = "The database name to use"
+  type        = string
+}
+
+variable "db_port" {
+  description = "The port for the PostgreSQL database"
+  type        = number
+  default     = 5432
+}
+
+variable "db_host" {
+  description = "The Host endpoint for the RDS PostgreSQL database"
+  type        = string
+}
+
+variable "rds_instance_id" {
+  description = "The ID of the RDS instance this EC2 instance depends on"
+  type        = string
+}
