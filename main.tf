@@ -22,10 +22,10 @@ module "ec2" {
   ami_owner_id                = var.ami_owner_id
   ec2_instance_count          = var.ec2_instance_count
   db_host                     = module.rds.rds_host_endpoint
-  db_port                     = 5432
-  db_name                     = "csye6225"
-  db_username                 = "csye6225"
-  db_password                 = "csye6225-shalom"
+  db_port                     = var.db_port
+  db_name                     = var.db_name
+  db_username                 = var.db_username
+  db_password                 = var.db_password
   rds_instance_id             = module.rds.rds_instance_id
   environment                 = var.environment
   depends_on                  = [module.vpc]
@@ -36,15 +36,15 @@ module "rds" {
 
   vpc_id                        = module.vpc.vpc_id
   application_security_group_id = module.ec2.application_security_group_id
-  db_port                       = 5432
-  db_parameter_group_family     = "postgres16"
-  db_identifier                 = "csye6225"
-  db_name                       = "csye6225"
-  db_username                   = "csye6225"
-  db_password                   = "csye6225-shalom"
-  db_engine                     = "postgres"
-  db_engine_version             = "16.4"
-  db_instance_class             = "db.t3.micro"
+  db_port                       = var.db_port
+  db_parameter_group_family     = var.db_parameter_group_family
+  db_identifier                 = var.db_identifier
+  db_name                       = var.db_name
+  db_username                   = var.db_username
+  db_password                   = var.db_password
+  db_engine                     = var.db_engine
+  db_engine_version             = var.db_engine_version
+  db_instance_class             = var.db_instance_class
   environment                   = var.environment
   depends_on                    = [module.vpc]
 }
