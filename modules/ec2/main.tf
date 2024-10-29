@@ -53,6 +53,7 @@ resource "aws_instance" "app_instance" {
   count                  = var.ec2_instance_count
   ami                    = local.latest_ami_id
   instance_type          = var.instance_type
+  iam_instance_profile   = var.iam_instance_profile
   subnet_id              = tolist(local.public_subnet_ids)[count.index]
   vpc_security_group_ids = [aws_security_group.app_sg.id]
 
@@ -83,6 +84,19 @@ PORT=${var.app_port}
 EOT
 
 echo "RDS configuration complete."
+
+##############################################################
+# CONFIGURE CLOUDWATCH AGENT TO USE CONFIG FILE AND RE-START #
+##############################################################
+echo "Configuring Cloudwatch Agent..."
+
+sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl \
+    -a fetch-config \
+    -m ec2 \
+    -c file:/opt/cloudwatch-config.json \
+    -s
+
+echo "Cloudwatch Agent configuration complete."
 EOF
   )
 

@@ -27,6 +27,7 @@ module "ec2" {
   db_username                 = var.db_username
   db_password                 = var.db_password
   rds_instance_id             = module.rds.rds_instance_id
+  iam_instance_profile        = module.iam.cloudwatch_agent_instance_profile
   environment                 = var.environment
   depends_on                  = [module.vpc]
 }
@@ -47,4 +48,10 @@ module "rds" {
   db_instance_class             = var.db_instance_class
   environment                   = var.environment
   depends_on                    = [module.vpc]
+}
+
+module "iam" {
+  source = "./modules/iam"
+
+  cloudwatch_agent_role_name = var.cloudwatch_agent_role_name
 }
