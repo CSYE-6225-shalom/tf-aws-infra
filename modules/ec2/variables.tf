@@ -79,3 +79,8 @@ variable "rds_instance_id" {
   description = "The ID of the RDS instance this EC2 instance depends on"
   type        = string
 }
+
+variable "iam_instance_profile" {
+  description = "The IAM role attached to this EC2 instance to connect to Cloudwatch"
+  type        = string
+}

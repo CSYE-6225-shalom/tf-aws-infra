@@ -115,6 +115,12 @@ variable "db_instance_class" {
   type        = string
 }
 
+variable "cloudwatch_agent_role_name" {
+  description = "Name of the IAM role for the CloudWatch Agent"
+  type        = string
+  default     = "cloudwatch-agent-iam-role"
+}
+
 variable "profile" {
   description = "The AWS profile to use. (NEU)"
   type        = string
