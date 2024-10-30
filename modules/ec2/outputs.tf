@@ -8,3 +8,7 @@ output "application_security_group_id" {
   value       = aws_security_group.app_sg.id
 }
 
+output "ec2_instances_public_ips" {
+  value       = aws_instance.app_instance[*].public_ip
+  description = "List of public IPs of the EC2 instances"
+}

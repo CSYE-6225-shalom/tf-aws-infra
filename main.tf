@@ -27,8 +27,10 @@ module "ec2" {
   db_username                 = var.db_username
   db_password                 = var.db_password
   rds_instance_id             = module.rds.rds_instance_id
-  iam_instance_profile        = module.iam.cloudwatch_agent_instance_profile
+  iam_instance_profile        = module.iam.instance_profile_name
   environment                 = var.environment
+  region                      = var.region
+  s3_bucket_name              = module.s3.bucket_name
   depends_on                  = [module.vpc]
 }
 
@@ -53,5 +55,22 @@ module "rds" {
 module "iam" {
   source = "./modules/iam"
 
-  cloudwatch_agent_role_name = var.cloudwatch_agent_role_name
+  iam_role_name = var.role_name
+  s3_bucket_arn = module.s3.bucket_arn
+}
+
+module "s3" {
+  source = "./modules/s3"
+
+  environment = var.environment
+}
+
+module "route53" {
+  source = "./modules/route53"
+
+  domain_name              = var.webapp_domain_name
+  app_port                 = var.app_port
+  ec2_instance_count       = var.ec2_instance_count
+  ec2_instances_public_ips = module.ec2.ec2_instances_public_ips
+  environment              = var.environment
 }

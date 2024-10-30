@@ -115,13 +115,18 @@ variable "db_instance_class" {
   type        = string
 }
 
-variable "cloudwatch_agent_role_name" {
-  description = "Name of the IAM role for the CloudWatch Agent"
+variable "role_name" {
+  description = "Name of the IAM role for the CloudWatch Agent & S3"
   type        = string
-  default     = "cloudwatch-agent-iam-role"
+  default     = "webapp-iam-role"
 }
 
 variable "profile" {
   description = "The AWS profile to use. (NEU)"
+  type        = string
+}
+
+variable "webapp_domain_name" {
+  description = "Te domain name for the webapp. (Namecheap DNS)"
   type        = string
 }
