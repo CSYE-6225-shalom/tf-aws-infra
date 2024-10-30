@@ -84,3 +84,13 @@ variable "iam_instance_profile" {
   description = "The IAM role attached to this EC2 instance to connect to Cloudwatch"
   type        = string
 }
+
+variable "s3_bucket_name" {
+  description = "S3 bucket name used for webapp to push images to"
+  type        = string
+}
+
+variable "region" {
+  description = "AWS region in which resources are deployed"
+  type        = string
+}

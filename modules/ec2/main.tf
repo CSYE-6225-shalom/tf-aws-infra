@@ -80,6 +80,8 @@ RDS_PORT=${var.db_port}
 RDS_DB_NAME="${var.db_name}"
 RDS_USERNAME="${var.db_username}"
 RDS_PASSWORD="${var.db_password}"
+AWS_S3_BUCKET="${var.s3_bucket_name}"
+AWS_REGION="${var.region}"
 PORT=${var.app_port}
 EOT
 

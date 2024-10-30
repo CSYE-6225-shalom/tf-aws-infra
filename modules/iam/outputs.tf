@@ -1,9 +1,19 @@
-output "cloudwatch_agent_role_name" {
-  description = "Name of the IAM role created for the CloudWatch Agent"
-  value       = var.cloudwatch_agent_role_name
+output "role_name" {
+  description = "Name of the created IAM role"
+  value       = aws_iam_role.ec2_role.name
 }
 
-output "cloudwatch_agent_instance_profile" {
-  description = "Name of the IAM instance profile created for the CloudWatch Agent"
-  value       = aws_iam_instance_profile.cloudwatch_agent_instance_profile.name
+output "role_arn" {
+  description = "ARN of the created IAM role"
+  value       = aws_iam_role.ec2_role.arn
+}
+
+output "instance_profile_name" {
+  description = "Name of the instance profile"
+  value       = aws_iam_instance_profile.ec2_instance_profile.name
+}
+
+output "instance_profile_arn" {
+  description = "ARN of the instance profile"
+  value       = aws_iam_instance_profile.ec2_instance_profile.arn
 }
