@@ -31,6 +31,9 @@ module "ec2" {
   environment                 = var.environment
   region                      = var.region
   s3_bucket_name              = module.s3.bucket_name
+  alb_security_group_id       = module.loadbalancer.alb_security_group_id
+  public_subnet_ids           = module.vpc.public_subnet_ids
+  webapp_lb_target_group_arn  = module.loadbalancer.webapp_lb_target_group_arn
   depends_on                  = [module.vpc]
 }
 
@@ -68,9 +71,17 @@ module "s3" {
 module "route53" {
   source = "./modules/route53"
 
-  domain_name              = var.webapp_domain_name
-  app_port                 = var.app_port
-  ec2_instance_count       = var.ec2_instance_count
-  ec2_instances_public_ips = module.ec2.ec2_instances_public_ips
-  environment              = var.environment
+  domain_name     = var.webapp_domain_name
+  webapp_alb_name = module.loadbalancer.webapp_alb_name
+  environment     = var.environment
+  depends_on      = [module.loadbalancer]
+}
+
+module "loadbalancer" {
+  source = "./modules/loadbalancer"
+
+  vpc_id            = module.vpc.vpc_id
+  public_subnet_ids = module.vpc.public_subnet_ids
+  app_port          = var.app_port
+  environment       = var.environment
 }

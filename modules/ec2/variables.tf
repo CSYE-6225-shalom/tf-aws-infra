@@ -80,6 +80,21 @@ variable "rds_instance_id" {
   type        = string
 }
 
+variable "alb_security_group_id" {
+  description = "The security group ID of the ALB"
+  type        = string
+}
+
+variable "public_subnet_ids" {
+  description = "List of public subnet IDs for the ALB"
+  type        = list(string)
+}
+
+variable "webapp_lb_target_group_arn" {
+  description = "The ARN of the AWS Load Balancer target group"
+  type        = string
+}
+
 variable "iam_instance_profile" {
   description = "The IAM role attached to this EC2 instance to connect to Cloudwatch"
   type        = string
