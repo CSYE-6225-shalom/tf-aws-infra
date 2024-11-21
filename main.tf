@@ -34,6 +34,7 @@ module "ec2" {
   alb_security_group_id       = module.loadbalancer.alb_security_group_id
   public_subnet_ids           = module.vpc.public_subnet_ids
   webapp_lb_target_group_arn  = module.loadbalancer.webapp_lb_target_group_arn
+  domain_name                 = var.webapp_domain_name
   depends_on                  = [module.vpc]
 }
 
@@ -58,6 +59,7 @@ module "rds" {
 module "iam" {
   source = "./modules/iam"
 
+  environment   = var.environment
   iam_role_name = var.role_name
   s3_bucket_arn = module.s3.bucket_arn
 }

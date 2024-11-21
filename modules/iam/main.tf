@@ -55,6 +55,29 @@ resource "aws_iam_role_policy_attachment" "s3_access_policy_attachment" {
   role       = aws_iam_role.ec2_role.name
 }
 
+# Create a custom SNS policy for limited access
+resource "aws_iam_policy" "sns_publish_policy" {
+  name        = "SNSPublishPolicy"
+  description = "Policy for publishing messages to a specific SNS topic. Avoiding SNSFullAccess policy."
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect   = "Allow",
+        Action   = "sns:Publish",
+        Resource = "${local.sns_topic_arn}"
+      }
+    ]
+  })
+}
+
+# Attach the custom SNS policy to the role
+resource "aws_iam_role_policy_attachment" "sns_publish_policy_attachment" {
+  policy_arn = aws_iam_policy.sns_publish_policy.arn
+  role       = aws_iam_role.ec2_role.name
+}
+
 # Combined Instance Profile
 resource "aws_iam_instance_profile" "ec2_instance_profile" {
   name = "${var.iam_role_name}-profile"

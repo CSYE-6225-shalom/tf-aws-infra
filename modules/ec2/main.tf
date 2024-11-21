@@ -67,6 +67,8 @@ RDS_PASSWORD="${var.db_password}"
 AWS_S3_BUCKET="${var.s3_bucket_name}"
 AWS_REGION="${var.region}"
 PORT=${var.app_port}
+AWS_SNS_TOPIC_ARN=${local.sns_topic_arn}
+VERIFICATION_URL="${var.domain_name}/v1/verify-email"
 EOT
 
 echo "RDS configuration complete."
