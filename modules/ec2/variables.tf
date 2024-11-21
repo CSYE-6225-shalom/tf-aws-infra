@@ -109,3 +109,8 @@ variable "region" {
   description = "AWS region in which resources are deployed"
   type        = string
 }
+
+variable "domain_name" {
+  type        = string
+  description = "App domain name (Namecheap)"
+}
