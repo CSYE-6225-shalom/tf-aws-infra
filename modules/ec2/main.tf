@@ -49,6 +49,7 @@ resource "aws_launch_template" "csye6225_asg" {
       volume_size           = 8 # Size in GB
       volume_type           = "gp2"
       encrypted             = true
+      kms_key_id            = var.ebs_encryption_key
       delete_on_termination = true
     }
   }
