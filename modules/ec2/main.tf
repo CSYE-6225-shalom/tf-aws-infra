@@ -56,14 +56,33 @@ resource "aws_launch_template" "csye6225_asg" {
 ####################################################
 echo "Configuring application with RDS settings..."
 
+SECRET_NAME="${var.aws_secretsmanager_secret_name}"
+REGION="${var.region}"
+
+# Install AWS CLI (if not already installed)
+sudo apt update && sudo apt upgrade -y
+sudo apt install -y curl unzip
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+aws --version
+
+# Retrieve the RDS password from Secrets Manager
+DB_PASSWORD=$(aws secretsmanager get-secret-value \
+  --secret-id $SECRET_NAME \
+  --region $REGION \
+  --query SecretString \
+  --output text | jq -r '.password')
+
 cd /opt/webapp
+
 # Create or update the .env file
 cat <<EOT > /opt/webapp/.env
 RDS_HOSTNAME="${var.db_host}"
 RDS_PORT=${var.db_port}
 RDS_DB_NAME="${var.db_name}"
 RDS_USERNAME="${var.db_username}"
-RDS_PASSWORD="${var.db_password}"
+RDS_PASSWORD="$DB_PASSWORD"
 AWS_S3_BUCKET="${var.s3_bucket_name}"
 AWS_REGION="${var.region}"
 PORT=${var.app_port}

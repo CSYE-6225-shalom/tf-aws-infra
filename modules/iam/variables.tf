@@ -12,3 +12,13 @@ variable "s3_bucket_arn" {
   description = "S3 bucket ARN"
   type        = string
 }
+
+variable "aws_secretsmanager_secret_arn" {
+  description = "Secrets Manager ARN"
+  type        = string
+}
+
+variable "rds_kms_key_arn" {
+  description = "RDS DB password kms key ARN"
+  type        = string
+}

@@ -78,6 +78,38 @@ resource "aws_iam_role_policy_attachment" "sns_publish_policy_attachment" {
   role       = aws_iam_role.ec2_role.name
 }
 
+resource "aws_iam_policy" "ec2_secrets_access" {
+  name        = "RDSDBPasswordAccess"
+  description = "Policy for accessing RDS db password stored in Secrets Manager."
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = [
+          "secretsmanager:GetSecretValue"
+        ],
+        Resource = var.aws_secretsmanager_secret_arn
+      },
+      {
+        Effect = "Allow",
+        Action = [
+          "kms:Decrypt",
+          "kms:DescribeKey"
+        ],
+        Resource = var.rds_kms_key_arn
+      }
+    ]
+  })
+}
+
+# Attach the custom Secrets Manager policy to the role
+resource "aws_iam_role_policy_attachment" "secrets_manager_policy_attachment" {
+  policy_arn = aws_iam_policy.ec2_secrets_access.arn
+  role       = aws_iam_role.ec2_role.name
+}
+
 # Combined Instance Profile
 resource "aws_iam_instance_profile" "ec2_instance_profile" {
   name = "${var.iam_role_name}-profile"

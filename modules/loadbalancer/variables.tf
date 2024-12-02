@@ -8,6 +8,11 @@ variable "vpc_id" {
   type        = string
 }
 
+variable "webapp_domain_name" {
+  description = "Domain name needed for SSL certificate"
+  type        = string
+}
+
 variable "public_subnet_ids" {
   description = "List of public subnet IDs for the ALB"
   type        = list(string)

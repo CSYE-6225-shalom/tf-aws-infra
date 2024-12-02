@@ -60,4 +60,3 @@ The CI/CD pipeline is defined in [terraform-pr.yml](.github/workflows/terraform-
 7. **Terraform Validate**
 8. **Checkov Security Scan**
 9. **Clean up sensitive data**
-
