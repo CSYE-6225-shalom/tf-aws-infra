@@ -1,5 +1,5 @@
-output "ec2_kms_key_id" {
-  value = aws_kms_key.ec2_key.arn
+output "ebs_encryption_key" {
+  value = aws_kms_key.ebs_encryption_key.id
 }
 
 output "rds_kms_key_id" {

@@ -94,8 +94,10 @@ resource "aws_iam_policy" "ec2_secrets_access" {
       },
       {
         Effect = "Allow",
-        Action = [
+        "Action" : [
+          "kms:Encrypt",
           "kms:Decrypt",
+          "kms:GenerateDataKey",
           "kms:DescribeKey"
         ],
         Resource = var.rds_kms_key_arn

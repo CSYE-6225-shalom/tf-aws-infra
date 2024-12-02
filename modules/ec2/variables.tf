@@ -104,6 +104,11 @@ variable "s3_bucket_name" {
   type        = string
 }
 
+variable "ebs_encryption_key" {
+  description = "ARN of the ec2 encryption KMS key. Needed to encrypt Ec2 disk"
+  type        = string
+}
+
 variable "region" {
   description = "AWS region in which resources are deployed"
   type        = string
