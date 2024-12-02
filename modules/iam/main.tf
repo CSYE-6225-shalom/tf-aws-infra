@@ -112,6 +112,79 @@ resource "aws_iam_role_policy_attachment" "secrets_manager_policy_attachment" {
   role       = aws_iam_role.ec2_role.name
 }
 
+# Define the IAM Policy
+resource "aws_iam_policy" "kms_full_access" {
+  name        = "KMSFullAccessPolicy"
+  description = "IAM policy granting access to KMS actions"
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid    = "VisualEditor0",
+        Effect = "Allow",
+        Action = [
+          "kms:GetPublicKey",
+          "kms:Decrypt",
+          "kms:ListKeyRotations",
+          "kms:CancelKeyDeletion",
+          "kms:DescribeCustomKeyStores",
+          "kms:UpdateCustomKeyStore",
+          "kms:Encrypt",
+          "kms:GetKeyRotationStatus",
+          "kms:ReEncryptTo",
+          "kms:ConnectCustomKeyStore",
+          "kms:ListRetirableGrants",
+          "kms:DeleteImportedKeyMaterial",
+          "kms:GenerateDataKeyPairWithoutPlaintext",
+          "kms:RotateKeyOnDemand",
+          "kms:DisableKey",
+          "kms:ReEncryptFrom",
+          "kms:DisableKeyRotation",
+          "kms:VerifyMac",
+          "kms:CreateCustomKeyStore",
+          "kms:DeleteAlias",
+          "kms:EnableKey",
+          "kms:ImportKeyMaterial",
+          "kms:GenerateRandom",
+          "kms:GenerateDataKeyWithoutPlaintext",
+          "kms:Verify",
+          "kms:DeriveSharedSecret",
+          "kms:ListResourceTags",
+          "kms:ReplicateKey",
+          "kms:GenerateDataKeyPair",
+          "kms:GetParametersForImport",
+          "kms:SynchronizeMultiRegionKey",
+          "kms:DeleteCustomKeyStore",
+          "kms:GenerateMac",
+          "kms:UpdatePrimaryRegion",
+          "kms:ScheduleKeyDeletion",
+          "kms:DescribeKey",
+          "kms:CreateKey",
+          "kms:Sign",
+          "kms:EnableKeyRotation",
+          "kms:ListKeyPolicies",
+          "kms:UpdateKeyDescription",
+          "kms:GetKeyPolicy",
+          "kms:ListGrants",
+          "kms:UpdateAlias",
+          "kms:ListKeys",
+          "kms:ListAliases",
+          "kms:GenerateDataKey",
+          "kms:CreateAlias",
+          "kms:DisconnectCustomKeyStore"
+        ],
+        Resource = "*"
+      }
+    ]
+  })
+}
+
+# Attach the Policy to an IAM Role
+resource "aws_iam_role_policy_attachment" "attach_kms_policy" {
+  role       = aws_iam_role.ec2_role.name
+  policy_arn = aws_iam_policy.kms_full_access.arn
+}
+
 # Combined Instance Profile
 resource "aws_iam_instance_profile" "ec2_instance_profile" {
   name = "${var.iam_role_name}-profile"
