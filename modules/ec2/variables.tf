@@ -53,12 +53,6 @@ variable "db_username" {
   type        = string
 }
 
-variable "db_password" {
-  description = "Password for the master DB user"
-  type        = string
-  sensitive   = true
-}
-
 variable "db_name" {
   description = "The database name to use"
   type        = string
@@ -72,6 +66,11 @@ variable "db_port" {
 
 variable "db_host" {
   description = "The Host endpoint for the RDS PostgreSQL database"
+  type        = string
+}
+
+variable "aws_secretsmanager_secret_name" {
+  description = "The Secrets manager secret name value"
   type        = string
 }
 

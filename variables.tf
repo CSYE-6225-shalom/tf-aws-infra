@@ -89,12 +89,6 @@ variable "db_username" {
   type        = string
 }
 
-variable "db_password" {
-  description = "Password for the master DB user"
-  type        = string
-  sensitive   = true
-}
-
 variable "db_name" {
   description = "The database name to use"
   type        = string

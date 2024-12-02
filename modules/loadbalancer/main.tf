@@ -1,3 +1,8 @@
+data "aws_acm_certificate" "subdomain_ssl" {
+  domain   = var.webapp_domain_name
+  statuses = ["ISSUED"] # Ensure only issued certificates are retrieved
+}
+
 resource "aws_security_group" "lb_sg" {
   name        = "${var.environment}-loadbalancer-security-group"
   description = "Security group for application load balancer"
@@ -68,6 +73,20 @@ resource "aws_lb_listener" "http" {
   load_balancer_arn = aws_lb.webapp_lb.arn
   port              = "80"
   protocol          = "HTTP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.webapp_lb.arn
+  }
+}
+
+resource "aws_lb_listener" "https" {
+  load_balancer_arn = aws_lb.webapp_lb.arn
+  port              = 443
+  protocol          = "HTTPS"
+
+  ssl_policy      = "ELBSecurityPolicy-2016-08"
+  certificate_arn = data.aws_acm_certificate.subdomain_ssl.arn
 
   default_action {
     type             = "forward"

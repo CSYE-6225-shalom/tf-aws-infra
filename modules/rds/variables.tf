@@ -29,12 +29,6 @@ variable "db_username" {
   type        = string
 }
 
-variable "db_password" {
-  description = "Password for the master DB user"
-  type        = string
-  sensitive   = true
-}
-
 variable "db_name" {
   description = "The database name to use"
   type        = string
@@ -52,6 +46,11 @@ variable "db_engine_version" {
 
 variable "db_instance_class" {
   description = "The instance type of the RDS instance"
+  type        = string
+}
+
+variable "rds_kms_key_id" {
+  description = "The KMS key for encrypting the RDS instance"
   type        = string
 }
 
