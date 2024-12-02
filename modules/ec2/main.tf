@@ -1,3 +1,6 @@
+# Get current AWS account ID
+data "aws_caller_identity" "current" {}
+
 resource "aws_security_group" "app_sg" {
   name        = "${var.environment}-application-security-group"
   vpc_id      = var.vpc_id
@@ -39,6 +42,16 @@ resource "aws_launch_template" "csye6225_asg" {
 
   image_id      = local.latest_ami_id
   instance_type = var.instance_type
+
+  block_device_mappings {
+    device_name = "/dev/sda1"
+    ebs {
+      volume_size           = 8 # Size in GB
+      volume_type           = "gp2"
+      encrypted             = true
+      delete_on_termination = true
+    }
+  }
 
   network_interfaces {
     associate_public_ip_address = true
